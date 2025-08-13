@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Zoznam odkazov | Shorty{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>Zoznam odkazov</h1>
+    <table style="width:100%; border-collapse:collapse">
+      <thead>
+        <tr style="text-align:left; border-bottom:1px solid var(--border)">
+          <th>Slug</th>
+          <th>URL</th>
+          <th>Hits</th>
+          <th>Vytvorené</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for link in links %}
+          <tr style="border-bottom:1px solid var(--border)">
+            <td><a href="{% url 'follow' link.slug %}">{{ link.slug }}</a></td>
+            <td>
+              <a href="{{ link.original_url }}" target="_blank" rel="noopener">
+                {{ link.original_url|truncatechars:60 }}
+              </a>
+            </td>
+            <td>{{ link.hits }}</td>
+            <td>{{ link.created_at|date:"Y-m-d H:i" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4" class="muted">Zatiaľ žiadne odkazy.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="row" style="justify-content:space-between; margin-top:1rem">
+      <div>
+        Strana {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </div>
+      <div class="row" style="gap:.75rem">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">← Predchádzajúca</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Ďalšia →</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

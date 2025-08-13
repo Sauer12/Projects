@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Hotovo | Shorty{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>Hotovo</h1>
+    <p>Originál: <a href="{{ link.original_url }}" target="_blank" rel="noopener">{{ link.original_url }}</a></p>
+
+    <div class="row" style="margin:.75rem 0">
+      <input id="short" type="text" value="{{ short_url }}" readonly>
+      <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('short').value)">Kopírovať</button>
+    </div>
+
+    <p>Počítadlo klikov: {{ link.hits }}</p>
+    <p><a href="{% url 'create_link' %}">Vytvoriť ďalší</a></p>
+  </section>
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Shorty{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap header-center">
+    <a class="brand" href="{% url 'create_link' %}">Shorty</a>
+
+    <nav class="nav">
+      <a class="btn" href="{% url 'create_link' %}">Shorty</a>
+      <a class="btn outline" href="{% url 'list_links' %}">Links</a>
+    </nav>
+  </div>
+</header>
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="wrap">
+    <small>&copy; {% now "Y" %} Shorty</small>
+  </footer>
+</body>
+</html>

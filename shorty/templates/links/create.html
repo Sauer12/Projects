@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Skrátiť URL | Shorty{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>Skrátiť URL</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.original_url }}
+      <button type="submit">Skrátiť</button>
+    </form>
+    {% if form.original_url.errors %}
+      <div class="error">{{ form.original_url.errors|striptags }}</div>
+    {% endif %}
+    <p class="muted" style="margin-top:.5rem">Prilep ľubovoľné <code>https://</code> URL.</p>
+  </section>
+{% endblock %}
+
