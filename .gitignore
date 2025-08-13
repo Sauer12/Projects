@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv/
+venv/
+.env*
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+# Tests / coverage
+.pytest_cache/
+.coverage*
+.tox/
+htmlcov/
