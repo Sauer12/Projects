@@ -6,6 +6,5 @@ Väčšina projektov je implementovaná v Python-e, no niektoré môžu využív
 
 📧 Kontakt
 Ak máš otázky, návrhy alebo záujem o spoluprácu, môžeš ma kontaktovať:
-GitHub: Sauer12
 E-mail: lsauerwork@gmail.com
 
