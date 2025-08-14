@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.title }} – Kino{% endblock %}
+{% block content %}
+<h1 style="margin-bottom:8px;">{{ movie.title }}{% if movie.year %} ({{ movie.year }}){% endif %}</h1>
+{% if movie.director %}<div style="margin-bottom:16px;">Réžia: {{ movie.director }}</div>{% endif %}
+
+<h2>Termíny</h2>
+<div style="display:grid; gap:8px;">
+  {% for st in showtimes %}
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div><strong>{{ st.start_at|date:"d.m.Y H:i" }}</strong></div>
+        <div>Sála: {{ st.hall.name }}</div>
+      </div>
+      <div>
+        <a class="btn" href="{% url 'seating:showtime_seats' st.pk %}">Vybrať sedadlá</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>Žiadne naplánované predstavenia.</p>
+  {% endfor %}
+</div>
+{% endblock %}

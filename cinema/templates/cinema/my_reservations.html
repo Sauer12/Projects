@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Moje rezervácie – Kino{% endblock %}
+{% block content %}
+<h1>Moje rezervácie</h1>
+<div style="display:grid; gap:10px;">
+  {% for r in reservations %}
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div><strong>{{ r.showtime.movie.title }}</strong></div>
+        <div>{{ r.showtime.start_at|date:"d.m.Y H:i" }} · Sála {{ r.showtime.hall.name }}</div>
+        <div>Sedadlá: {{ r.seats_labels }}</div>
+        <div style="font-size:12px; color:#666;">Vytvorené: {{ r.created_at|date:"d.m.Y H:i" }}</div>
+      </div>
+      <div>
+        <a class="btn" href="{% url 'cinema:cancel_reservation' r.pk %}">Zrušiť</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>Nemáš žiadne rezervácie.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load form_extras %}
+{% block title %}Prihlásenie – Kino{% endblock %}
+{% block content %}
+  <h1>Prihlásenie</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="card" style="max-width:420px;">
+      <div>
+        <label>Username</label>
+        {{ form.username|add_class:"input" }}
+      </div>
+      <div style="margin-top:12px;">
+        <label>Password</label>
+        {{ form.password|add_class:"input" }}
+      </div>
+      <div style="margin-top:12px;">
+        <button class="btn" type="submit">Prihlásiť</button>
+        <a href="{% url 'auth_custom:signup' %}" style="margin-left:8px;">Nemáš účet? Registruj sa</a>
+      </div>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Kino{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 0; }
+    header { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:#111; color:#fff; }
+    nav a { color:#fff; text-decoration:none; margin-left: 12px; }
+    .container { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    .btn { padding: 8px 12px; border:1px solid #222; background:#f2f2f2; cursor:pointer; }
+    .input { padding:8px; width:100%; box-sizing:border-box; }
+    .card { border:1px solid #e5e5e5; padding:16px; border-radius:8px; }
+    .nav-linklike {
+        background:none; border:none; padding:0; margin-left:12px;
+        color:#fff; text-decoration:none; cursor:pointer; font:inherit;
+    }
+    .nav-linklike:hover { text-decoration:underline; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+<header>
+  <div><strong>Kino</strong></div>
+  <nav>
+      <a href="{% url 'home' %}">Domov</a>
+      <a href="/movies/">Filmy</a>
+    {% if user.is_authenticated %}
+      {% if user.is_authenticated %}
+          <a href="{% url 'cinema:my_reservations' %}">Moje rezervácie</a>
+          <form action="{% url 'logout' %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="nav-linklike">Odhlásiť</button>
+          </form>
+      {% else %}
+          ...
+      {% endif %}
+    {% else %}
+      <a href="{% url 'login' %}">Prihlásiť</a>
+      <a href="{% url 'auth_custom:signup' %}">Registrovať</a>
+    {% endif %}
+      <a href="/admin/">Admin</a>
+  </nav>
+</header>
+<main class="container">
+  {% if messages %}
+    <ul style="list-style:none; padding:0;">
+      {% for message in messages %}
+        <li class="card" style="margin-bottom:8px;">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

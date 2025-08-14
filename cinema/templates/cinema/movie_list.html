@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Filmy – Kino{% endblock %}
+{% block content %}
+<h1>Filmy</h1>
+<div class="grid" style="display:grid; gap:12px;">
+  {% for m in movies %}
+    <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h3 style="margin:0 0 6px 0;">{{ m.title }}{% if m.year %} ({{ m.year }}){% endif %}</h3>
+        {% if m.director %}<div>Réžia: {{ m.director }}</div>{% endif %}
+      </div>
+      <div>
+        <a class="btn" href="{% url 'cinema:movie_detail' m.pk %}">Pozrieť termíny</a>
+      </div>
+    </div>
+  {% empty %}
+    <p>Žiadne filmy.</p>
+  {% endfor %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Kino – Domov{% endblock %}
+{% block content %}
+  <div class="card">
+    <h1>Vitaj v aplikácii Kino</h1>
+    {% if user.is_authenticated %}
+      <p>Si prihlásený ako <strong>{{ user.username }}</strong>.</p>
+    {% else %}
+      <p><a class="btn" href="{% url 'login' %}">Prihlásiť</a>
+         <a class="btn" href="{% url 'auth_custom:signup' %}" style="margin-left:8px;">Registrovať</a></p>
+    {% endif %}
+  </div>
+{% endblock %}
+

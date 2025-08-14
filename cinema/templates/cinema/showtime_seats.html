@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Výber sedadiel – {{ movie.title }}{% endblock %}
+{% block content %}
+<h1>{{ movie.title }}</h1>
+<p><strong>{{ showtime.start_at|date:"d.m.Y H:i" }}</strong> · Sála <strong>{{ hall.name }}</strong></p>
+
+<style>
+  .screen { text-align:center; padding:8px; margin:16px 0; background:#eee; border:1px solid #ddd; border-radius:6px; }
+  .seats-grid { display:inline-block; border:1px dashed #ccc; padding:12px; border-radius:8px; }
+  .row { white-space:nowrap; margin:4px 0; }
+  .row-label { width:24px; display:inline-block; text-align:right; margin-right:6px; color:#666; font-family:monospace; }
+
+  /* základ sedadla */
+  label.seat { display:inline-block; margin:3px; }
+  label.seat input { display:none; }
+  label.seat span {
+    width:28px; height:28px; line-height:28px;
+    display:inline-block; text-align:center; font-size:12px; border-radius:4px;
+    font-family:system-ui, -apple-system, Segoe UI, Roboto, monospace;
+    border:1px solid #6acc6a; background:#e8ffe8; cursor:pointer;
+  }
+  /* vybrané (checkbox checked) */
+  label.seat input:checked + span {
+    outline:2px solid #3b82f6;          /* modrý výber */
+    outline-offset:1px;
+  }
+
+  /* obsadené sedadlá (bez inputu) */
+  span.seat-booked {
+    width:28px; height:28px; line-height:28px;
+    display:inline-block; text-align:center; font-size:12px; border-radius:4px;
+    border:1px solid #ff7a7a; background:#ffd6d6; color:#555; margin:3px;
+    cursor:not-allowed;
+  }
+
+  .legend { margin-top:12px; font-size:14px; }
+  .btn-primary { padding:8px 12px; border:1px solid #222; background:#f7f7f7; cursor:pointer; border-radius:6px; }
+  .picks { margin-top:16px;}
+  .counter { margin-left:8px; color:#555; }
+</style>
+
+<div class="screen">PLÁTNO</div>
+
+<form method="post" action="{% url 'seating:reserve_seats' showtime.id %}">
+  {% csrf_token %}
+  <div class="seats-grid">
+    {% for row in grid %}
+      <div class="row">
+        <span class="row-label">{{ row.row_label }}</span>
+        {% for cell in row.cells %}
+          {% if cell.booked %}
+            <span class="seat-booked" title="{{ cell.label }}">{{ cell.num }}</span>
+          {% else %}
+            <!-- FREE sedadlo: label + input (skrytý) + span (vizuál) -->
+            <label class="seat" title="{{ cell.label }}">
+              <input type="checkbox" name="seats" value="{{ cell.label }}">
+              <span>{{ cell.num }}</span>
+            </label>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="legend">
+    <span class="seat-booked" style="margin-right:4px;"></span> Obsadené
+    <label class="seat" style="margin-left:16px; margin-right:4px;"><input type="checkbox"><span></span></label> Voľné
+    <span class="counter" id="selectedCount">Vybrané: 0</span>
+  </div>
+
+  <div class="picks">
+    <button type="submit" class="btn-primary">Rezervovať</button>
+  </div>
+</form>
+
+<script>
+  // live počítadlo
+  function updateSelectedCount() {
+    const n = document.querySelectorAll('input[name="seats"]:checked').length;
+    document.getElementById('selectedCount').textContent = 'Vybrané: ' + n;
+  }
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.name === 'seats') updateSelectedCount();
+  });
+  updateSelectedCount();
+</script>
+{% endblock %}
+
+
